@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://b28cjrfs5nph3"]
+
+[ext_resource type="Texture2D" uid="uid://rgnwryq0f5wv" path="res://Assets/Weapon/tile_0044.png" id="1_d7jgt"]
+[ext_resource type="Script" uid="uid://cfou38tke2w0g" path="res://Scripts/Weapons/WeaponProjectile.gd" id="1_script"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d7jgt"]
+size = Vector2(21, 10)
+
+[node name="WeaponProjectile" type="Area2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(1.75, 1.75)
+texture = ExtResource("1_d7jgt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_d7jgt")

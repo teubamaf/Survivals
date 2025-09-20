@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://cv5yh0ajmyovg"]
+
+[ext_resource type="PackedScene" uid="uid://cuegfhxyssadw" path="res://Scenes/Player.tscn" id="1_6vch2"]
+
+[node name="TestScene" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_6vch2")]
+position = Vector2(582, 314)
+max_health = null
+current_health = null
+speed = null
+dash_speed = null
+dash_duration = null
+dash_cooldown = null

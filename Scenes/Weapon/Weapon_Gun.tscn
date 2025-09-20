@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://can8ovh6c6jdm"]
+
+[ext_resource type="Texture2D" uid="uid://ce6a8j6ko5cq4" path="res://Assets/Weapon/Gun.png" id="1_jj3eu"]
+[ext_resource type="Script" uid="uid://c6t87orrhmsa8" path="res://Scripts/Weapons/Weapon List/PistolWeapon.gd" id="1_yqltp"]
+[ext_resource type="PackedScene" uid="uid://b28cjrfs5nph3" path="res://Scenes/Weapon/Weapon_Projectile.tscn" id="2_5nnhj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yqltp"]
+
+[node name="Weapon_Gun" type="Area2D"]
+script = ExtResource("1_yqltp")
+projectile_scene = ExtResource("2_5nnhj")
+weapon_scene_path = "res://Scenes/Weapon/Weapon_Gun.tscn"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(2.6733766, 2.6733766)
+texture = ExtResource("1_jj3eu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(1.1479203, 1.0238062)
+shape = SubResource("CircleShape2D_yqltp")

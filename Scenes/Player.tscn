@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://cuegfhxyssadw"]
+
+[ext_resource type="Script" uid="uid://fbfji2rmwqwu" path="res://Scripts/Player.gd" id="1_kyqiw"]
+[ext_resource type="Texture2D" uid="uid://cktq36ucuu7o6" path="res://Assets/Player/creature-sheet.png" id="2_gntrk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kyqiw"]
+size = Vector2(33, 47)
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("1_kyqiw")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(3.1249998, 3.1249998)
+texture = ExtResource("2_gntrk")
+hframes = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 11.5)
+shape = SubResource("RectangleShape2D_kyqiw")
+
+[node name="WeaponPosition" type="Node2D" parent="."]

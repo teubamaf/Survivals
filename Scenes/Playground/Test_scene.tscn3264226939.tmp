@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cv5yh0ajmyovg"]
+
+[ext_resource type="PackedScene" uid="uid://cuegfhxyssadw" path="res://Scenes/Player.tscn" id="1_6vch2"]
+[ext_resource type="Script" uid="uid://bjarec1ke7y0g" path="res://Scripts/WeaponPickup.gd" id="2_dbh3e"]
+[ext_resource type="PackedScene" uid="uid://can8ovh6c6jdm" path="res://Scenes/Weapon/Weapon_Gun.tscn" id="3_t0sv5"]
+
+[node name="TestScene" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_6vch2")]
+position = Vector2(582, 314)
+max_health = null
+current_health = null
+speed = null
+dash_speed = null
+dash_duration = null
+dash_cooldown = null
+
+[node name="WeaponPickup_Test" type="Area2D" parent="."]
+position = Vector2(996, 198)
+script = ExtResource("2_dbh3e")
+weapon_scene = ExtResource("3_t0sv5")
+weapon_name = "Gun"

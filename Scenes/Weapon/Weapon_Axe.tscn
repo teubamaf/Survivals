@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://w3tg6hf1aisx"]
+
+[ext_resource type="Script" uid="uid://c58bejetx6057" path="res://Scripts/Weapons/Weapon List/AxeWeapon.gd" id="1_bkata"]
+[ext_resource type="Texture2D" uid="uid://bsxf42nup0dku" path="res://Assets/Weapon/weapon_axe.png" id="1_r77ok"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yqltp"]
+
+[node name="WeaponAxe" type="Area2D"]
+script = ExtResource("1_bkata")
+weapon_scene_path = "res://Scenes/Weapon/Weapon_Axe.tscn"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_r77ok")
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(-1.1807741, 2.121074)
+shape = SubResource("CircleShape2D_yqltp")

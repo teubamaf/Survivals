@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cheh4np5x2b4i"]
+
+[ext_resource type="Script" uid="uid://bjarec1ke7y0g" path="res://Scripts/Weapons/WeaponPickup.gd" id="1_wlcff"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wlcff"]
+size = Vector2(50, 50)
+
+[node name="WeaponPickup" type="Area2D"]
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("1_wlcff")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_wlcff")
