@@ -7,7 +7,7 @@ var is_swinging: bool = false
 func _ready():
 	super._ready()
 	weapon_name = "Battle Axe"
-	damage = 35
+	damage = 50
 	attack_speed = 1.5
 	range = 80.0
 	durability = 150
@@ -21,52 +21,60 @@ func _ready():
 
 func _perform_attack(target_position: Vector2):
 	_perform_swing_effect()
-	super._perform_attack(target_position)
+	await super._perform_attack(target_position)
 
 func _perform_heavy_attack(target_position: Vector2):
 	_perform_heavy_swing_effect()
-	super._perform_heavy_attack(target_position)
+	await super._perform_heavy_attack(target_position)
 
 func _perform_swing_effect():
 	if is_swinging:
 		return
 
 	is_swinging = true
-	original_rotation = rotation
+	original_rotation = 0.0  # Toujours revenir à 0
+	rotation = 0.0  # S'assurer qu'on part de 0
 
 	var swing_tween = create_tween()
 
 	# Phase 1: Préparation du swing
-	swing_tween.parallel().tween_property(self, "rotation", original_rotation - deg_to_rad(swing_arc/2), 0.1)
+	swing_tween.parallel().tween_property(self, "rotation", -deg_to_rad(swing_arc/2), 0.1)
 	swing_tween.parallel().tween_property(self, "scale", Vector2(1.2, 1.2), 0.1)
 
 	# Phase 2: Swing principal
-	swing_tween.tween_property(self, "rotation", original_rotation + deg_to_rad(swing_arc/2), 0.2)
+	swing_tween.tween_property(self, "rotation", deg_to_rad(swing_arc/2), 0.2)
 
 	# Phase 3: Retour à la position normale
-	swing_tween.parallel().tween_property(self, "rotation", original_rotation, 0.1)
+	swing_tween.parallel().tween_property(self, "rotation", 0.0, 0.1)
 	swing_tween.parallel().tween_property(self, "scale", Vector2(1.0, 1.0), 0.1)
 
-	swing_tween.tween_callback(func(): is_swinging = false)
+	swing_tween.tween_callback(func():
+		rotation = 0.0  # Force le retour à 0
+		is_swinging = false
+	)
 
 func _perform_heavy_swing_effect():
 	if is_swinging:
 		return
 
 	is_swinging = true
-	original_rotation = rotation
+	original_rotation = 0.0  # Toujours revenir à 0
+	rotation = 0.0  # S'assurer qu'on part de 0
 
 	var heavy_swing_tween = create_tween()
 
 	# Phase 1: Préparation du heavy swing
-	heavy_swing_tween.parallel().tween_property(self, "rotation", original_rotation - deg_to_rad(swing_arc), 0.15)
+	heavy_swing_tween.parallel().tween_property(self, "rotation", -deg_to_rad(swing_arc), 0.15)
 	heavy_swing_tween.parallel().tween_property(self, "scale", Vector2(1.5, 1.5), 0.15)
 
 	# Phase 2: Heavy swing principal
-	heavy_swing_tween.tween_property(self, "rotation", original_rotation + deg_to_rad(swing_arc), 0.3)
+	heavy_swing_tween.tween_property(self, "rotation", deg_to_rad(swing_arc), 0.3)
 
 	# Phase 3: Retour à la position normale
-	heavy_swing_tween.parallel().tween_property(self, "rotation", original_rotation, 0.15)
+	heavy_swing_tween.parallel().tween_property(self, "rotation", 0.0, 0.15)
 	heavy_swing_tween.parallel().tween_property(self, "scale", Vector2(1.0, 1.0), 0.15)
 
-	heavy_swing_tween.tween_callback(func(): is_swinging = false)
+	heavy_swing_tween.tween_callback(func():
+		rotation = 0.0  # Force le retour à 0
+		is_swinging = false
+	)

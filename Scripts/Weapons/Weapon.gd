@@ -1,4 +1,4 @@
-extends Node2D
+extends Area2D
 class_name Weapon
 
 @export var weapon_name: String = "Basic Weapon"

@@ -60,18 +60,22 @@ func _perform_heavy_attack(target_position: Vector2):
 				body.apply_knockback(direction * knockback_force)
 
 func _get_attack_area() -> Area2D:
-	var area = Area2D.new()
-	var collision_shape = CollisionShape2D.new()
-	var shape = CircleShape2D.new()
+	# Utilise l'Area2D de la scène si disponible, sinon crée une temporaire
+	if self is Area2D:
+		return self as Area2D
+	else:
+		var area = Area2D.new()
+		var collision_shape = CollisionShape2D.new()
+		var shape = CircleShape2D.new()
 
-	shape.radius = range
-	collision_shape.shape = shape
-	area.add_child(collision_shape)
+		shape.radius = range
+		collision_shape.shape = shape
+		area.add_child(collision_shape)
 
-	get_tree().current_scene.add_child(area)
-	area.global_position = global_position
+		get_tree().current_scene.add_child(area)
+		area.global_position = global_position
 
-	await get_tree().process_frame
-	area.queue_free()
+		await get_tree().process_frame
+		area.queue_free()
 
-	return area
+		return area

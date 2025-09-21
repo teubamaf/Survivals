@@ -15,9 +15,9 @@ var is_lunging: bool = false
 var lunge_target: Vector2
 
 func _ready():
-	max_health = 150
+	max_health = 100
 	current_health = max_health
-	speed = 80.0
+	speed = 100.0
 	damage = 25
 	attack_range = 60.0
 	detection_range = 250.0

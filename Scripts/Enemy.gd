@@ -88,7 +88,15 @@ func _handle_movement(delta):
 		return
 
 	var direction = (target.global_position - global_position).normalized()
-	velocity = velocity.move_toward(direction * speed, speed * 3 * delta)
+
+	# Si trop proche du joueur, recule légèrement pour éviter le blocage
+	var distance_to_target = _distance_to(target)
+	if distance_to_target < 30.0:  # Distance très proche
+		direction *= -0.3  # Recule légèrement
+		velocity = velocity.move_toward(direction * speed * 0.5, speed * 2 * delta)
+	else:
+		velocity = velocity.move_toward(direction * speed, speed * 3 * delta)
+
 	move_and_slide()
 
 func _handle_combat():

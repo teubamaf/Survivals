@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bsxf42nup0dku" path="res://Assets/Weapon/weapon_axe.png" id="1_r77ok"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yqltp"]
+radius = 10.173755
 
 [node name="WeaponAxe" type="Area2D"]
 script = ExtResource("1_bkata")
@@ -14,5 +15,6 @@ texture = ExtResource("1_r77ok")
 flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(-1.1807741, 2.121074)
+position = Vector2(12, -13.999999)
+scale = Vector2(-1.6474454, 1.2632496)
 shape = SubResource("CircleShape2D_yqltp")
