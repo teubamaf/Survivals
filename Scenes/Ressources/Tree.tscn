@@ -1,12 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://duodj5cib0hw"]
+[gd_scene load_steps=4 format=3 uid="uid://duodj5cib0hw"]
 
 [ext_resource type="Texture2D" uid="uid://d00lbnyfkf8yr" path="res://Assets/Tilemap/Ressources/tilemap.png" id="1_77ci1"]
+[ext_resource type="Script" uid="uid://snrb5wb4nqa5" path="res://Scripts/Ressources/Tree/Tree.gd" id="1_sk158"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_io2or"]
 height = 48.0
 
-[node name="Tree" type="Area2D"]
+[node name="Tree" type="StaticBody2D"]
 scale = Vector2(1.3039216, 1.3039216)
+script = ExtResource("1_sk158")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

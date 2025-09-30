@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://bqbtp1lx0kqx4"]
+
+[ext_resource type="Texture2D" uid="uid://btp0afc0fuq8" path="res://Assets/Tilemap/tilemap.png" id="1_hgm7k"]
+[ext_resource type="Script" uid="uid://b8ttxe26t3dsh" path="res://Scripts/Ressources/Tree/Tree_log.gd" id="1_x5c2x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x5c2x"]
+size = Vector2(31, 13)
+
+[node name="TreeLog" type="Area2D"]
+script = ExtResource("1_x5c2x")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(1.9791667, 1.9791667)
+texture = ExtResource("1_hgm7k")
+region_enabled = true
+region_rect = Rect2(169.79626, 137.415, 16.72168, 12.687775)
+
+[node name="Area2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, -0.5)
+shape = SubResource("RectangleShape2D_x5c2x")
+
+[node name="Label_Number" type="Label" parent="."]
+offset_left = -1.0
+offset_top = -23.0
+offset_right = 22.0
+offset_bottom = 2.0
+text = "10"

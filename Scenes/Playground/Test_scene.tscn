@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://cv5yh0ajmyovg"]
+[gd_scene load_steps=10 format=4 uid="uid://cv5yh0ajmyovg"]
 
 [ext_resource type="PackedScene" uid="uid://cuegfhxyssadw" path="res://Scenes/Player.tscn" id="1_6vch2"]
 [ext_resource type="PackedScene" uid="uid://cheh4np5x2b4i" path="res://Scenes/WeaponPickup.tscn" id="2_dbh3e"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://w3tg6hf1aisx" path="res://Scenes/Weapon/Weapon_Axe.tscn" id="4_t0sv5"]
 [ext_resource type="PackedScene" uid="uid://du8e1vqljijrr" path="res://Scenes/Ennemies/Zombies.tscn" id="5_vefph"]
 [ext_resource type="Texture2D" uid="uid://btp0afc0fuq8" path="res://Assets/Tilemap/tilemap.png" id="6_1ef4a"]
+[ext_resource type="PackedScene" uid="uid://duodj5cib0hw" path="res://Scenes/Ressources/Tree.tscn" id="7_7hosb"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7hosb"]
 texture = ExtResource("6_1ef4a")
@@ -288,3 +289,21 @@ position = Vector2(146, 112)
 
 [node name="Zombies2" parent="." instance=ExtResource("5_vefph")]
 position = Vector2(896, 85)
+
+[node name="Tree" parent="." instance=ExtResource("7_7hosb")]
+position = Vector2(1026, 564)
+
+[node name="Tree2" parent="." instance=ExtResource("7_7hosb")]
+position = Vector2(155, 555)
+
+[node name="Tree3" parent="." instance=ExtResource("7_7hosb")]
+position = Vector2(403, 85)
+
+[node name="Tree4" parent="." instance=ExtResource("7_7hosb")]
+position = Vector2(989, 244)
+
+[node name="Tree5" parent="." instance=ExtResource("7_7hosb")]
+position = Vector2(184, 325)
+
+[node name="Tree6" parent="." instance=ExtResource("7_7hosb")]
+position = Vector2(599, 514)
