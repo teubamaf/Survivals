@@ -19,7 +19,7 @@ var is_dashing: bool = false
 var dash_timer: Timer
 var dash_cooldown_timer: Timer
 var knockback_velocity: Vector2 = Vector2.ZERO
-
+@onready var _animated_sprite = $AnimatedSprite2D
 @onready var weapon_position: Node2D = $WeaponPosition
 
 func _ready():
@@ -43,12 +43,14 @@ func _on_dash_finished():
 
 func _physics_process(delta):
 	if current_health <= 0:
+		_animated_sprite.play("Dead")
 		return
 
 	_handle_knockback(delta)
 	_handle_input()
 	_handle_movement(delta)
 	_handle_weapon_rotation()
+	_update_animations()
 
 	move_and_slide()
 
@@ -91,6 +93,18 @@ func _handle_movement(delta):
 		velocity = Vector2.ZERO
 
 	velocity += knockback_velocity
+
+func _update_animations():
+	if velocity.length() > 0:
+		_animated_sprite.play("walk")
+
+		# Flip le sprite selon la direction horizontale
+		if velocity.x < 0:
+			_animated_sprite.flip_h = true
+		elif velocity.x > 0:
+			_animated_sprite.flip_h = false
+	else:
+		_animated_sprite.play("idle")
 
 func _handle_weapon_rotation():
 	if weapon_position and current_weapon:
