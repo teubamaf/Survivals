@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://duodj5cib0hw"]
+
+[ext_resource type="Texture2D" uid="uid://d00lbnyfkf8yr" path="res://Assets/Tilemap/Ressources/tilemap.png" id="1_77ci1"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_io2or"]
+height = 48.0
+
+[node name="Tree" type="Area2D"]
+scale = Vector2(1.3039216, 1.3039216)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(3.1666667, 3.1666667)
+texture = ExtResource("1_77ci1")
+region_enabled = true
+region_rect = Rect2(69.78311, 34.261997, 12.292679, 15.83894)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_io2or")

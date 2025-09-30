@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cktq36ucuu7o6"
-path="res://.godot/imported/creature-sheet.png-ec9c06ad21b18095575afdbd75c7d70d.ctex"
+uid="uid://cbc2d7c83vmaf"
+path="res://.godot/imported/tile_0009.png-8f78f02e8e786116bd757b9b06fb6c7f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Player/creature-sheet.png"
-dest_files=["res://.godot/imported/creature-sheet.png-ec9c06ad21b18095575afdbd75c7d70d.ctex"]
+source_file="res://Assets/Weapon/tile_0009.png"
+dest_files=["res://.godot/imported/tile_0009.png-8f78f02e8e786116bd757b9b06fb6c7f.ctex"]
 
 [params]
 
