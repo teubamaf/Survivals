@@ -12,6 +12,7 @@ signal health_changed(new_health: int, max_health: int)
 signal weapon_equipped(weapon: Weapon)
 signal weapon_unequipped
 signal player_died
+signal inventory_changed
 
 var current_weapon: Weapon = null
 var inventory: Array[Weapon] = []
@@ -168,6 +169,7 @@ func unequip_weapon():
 
 func add_weapon_to_inventory(weapon: Weapon):
 	inventory.append(weapon)
+	inventory_changed.emit()
 	if not current_weapon:
 		equip_weapon(weapon)
 	print("Picked up: ", weapon.weapon_name)
@@ -176,6 +178,7 @@ func remove_weapon_from_inventory(weapon: Weapon):
 	if weapon == current_weapon:
 		unequip_weapon()
 	inventory.erase(weapon)
+	inventory_changed.emit()
 
 func _drop_weapon():
 	if current_weapon and inventory.size() > 0:
