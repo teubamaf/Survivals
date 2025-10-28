@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://cv5yh0ajmyovg"]
+[gd_scene load_steps=11 format=4 uid="uid://cv5yh0ajmyovg"]
 
 [ext_resource type="PackedScene" uid="uid://cuegfhxyssadw" path="res://Scenes/Player.tscn" id="1_6vch2"]
 [ext_resource type="PackedScene" uid="uid://cheh4np5x2b4i" path="res://Scenes/WeaponPickup.tscn" id="2_dbh3e"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://du8e1vqljijrr" path="res://Scenes/Ennemies/Zombies.tscn" id="5_vefph"]
 [ext_resource type="Texture2D" uid="uid://btp0afc0fuq8" path="res://Assets/Tilemap/tilemap.png" id="6_1ef4a"]
 [ext_resource type="PackedScene" uid="uid://duodj5cib0hw" path="res://Scenes/Ressources/Tree.tscn" id="7_7hosb"]
+[ext_resource type="PackedScene" uid="uid://n2v75a2i3k4a" path="res://Scenes/Ressources/Rocks.tscn" id="8_flal8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7hosb"]
 texture = ExtResource("6_1ef4a")
@@ -307,3 +308,12 @@ position = Vector2(184, 325)
 
 [node name="Tree6" parent="." instance=ExtResource("7_7hosb")]
 position = Vector2(599, 514)
+
+[node name="Rocks" parent="." instance=ExtResource("8_flal8")]
+position = Vector2(821, 568)
+
+[node name="Rocks2" parent="." instance=ExtResource("8_flal8")]
+position = Vector2(353, 597)
+
+[node name="Rocks3" parent="." instance=ExtResource("8_flal8")]
+position = Vector2(692, 128)

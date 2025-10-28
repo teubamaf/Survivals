@@ -1,0 +1,57 @@
+[gd_scene load_steps=12 format=3 uid="uid://d01opnng02mnx"]
+
+[ext_resource type="Script" uid="uid://c35oeyqtf07i4" path="res://Scripts/MapGenerator.gd" id="1_mapgen"]
+[ext_resource type="PackedScene" uid="uid://cuegfhxyssadw" path="res://Scenes/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://duodj5cib0hw" path="res://Scenes/Ressources/Tree.tscn" id="3_tree"]
+[ext_resource type="PackedScene" uid="uid://n2v75a2i3k4a" path="res://Scenes/Ressources/Rocks.tscn" id="4_rocks"]
+[ext_resource type="PackedScene" uid="uid://du8e1vqljijrr" path="res://Scenes/Ennemies/Zombies.tscn" id="5_zombie"]
+[ext_resource type="Texture2D" uid="uid://btp0afc0fuq8" path="res://Assets/Tilemap/tilemap.png" id="6_tilemap"]
+[ext_resource type="PackedScene" uid="uid://cheh4np5x2b4i" path="res://Scenes/WeaponPickup.tscn" id="7_g7c3n"]
+[ext_resource type="PackedScene" uid="uid://can8ovh6c6jdm" path="res://Scenes/Weapon/Weapon_Gun.tscn" id="8_vg3u0"]
+[ext_resource type="PackedScene" uid="uid://w3tg6hf1aisx" path="res://Scenes/Weapon/Weapon_Axe.tscn" id="9_uwvby"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_grass"]
+texture = ExtResource("6_tilemap")
+texture_region_size = Vector2i(17, 17)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_main"]
+tile_size = Vector2i(15, 15)
+sources/0 = SubResource("TileSetAtlasSource_grass")
+
+[node name="ProceduralTestScene" type="Node2D"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+texture_filter = 1
+scale = Vector2(3, 3)
+tile_set = SubResource("TileSet_main")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+
+[node name="MapGenerator" type="Node2D" parent="."]
+script = ExtResource("1_mapgen")
+map_width = 3000
+map_height = 3000
+num_trees = 30
+num_rocks = 20
+num_zombies = 8
+tree_scene = ExtResource("3_tree")
+rock_scene = ExtResource("4_rocks")
+zombie_scene = ExtResource("5_zombie")
+safe_zone_radius = 300.0
+
+[node name="WeaponPickup" parent="." instance=ExtResource("7_g7c3n")]
+position = Vector2(93, 90)
+collision_layer = 1
+collision_mask = 1
+weapon_scene = ExtResource("9_uwvby")
+weapon_name = "Axe"
+
+[node name="WeaponPickup2" parent="." instance=ExtResource("7_g7c3n")]
+position = Vector2(-105, 88)
+collision_layer = 1
+collision_mask = 1
+weapon_scene = ExtResource("8_vg3u0")
+weapon_name = "Gun"

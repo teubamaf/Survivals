@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://n2v75a2i3k4a"]
+
+[ext_resource type="Texture2D" uid="uid://cw1t1tuolh7n5" path="res://Assets/Tilemap/Ressources/rocks.png" id="1_arwjd"]
+[ext_resource type="Script" uid="uid://bjfms20v6mnog" path="res://Scripts/Ressources/Rocks/Rocks.gd" id="1_io2or"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_io2or"]
+radius = 13.037594
+height = 27.609022
+
+[node name="Rocks" type="StaticBody2D"]
+scale = Vector2(1.3039216, 1.3039216)
+script = ExtResource("1_io2or")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(2.1585214, 2.1585214)
+texture = ExtResource("1_arwjd")
+region_rect = Rect2(69.78311, 34.261997, 12.292679, 15.83894)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_io2or")

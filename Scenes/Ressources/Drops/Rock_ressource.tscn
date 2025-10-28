@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://ccm08l7f6432u"]
+
+[ext_resource type="Script" uid="uid://bn2hk21kuor67" path="res://Scripts/Ressources/Rocks/Rock_ressource.gd" id="1_mglxa"]
+[ext_resource type="Texture2D" uid="uid://c1u6gwjctqcjh" path="res://Assets/Tilemap/Ressources/rock_ressources.png" id="2_mglxa"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x5c2x"]
+size = Vector2(31, 19.5)
+
+[node name="Rock_ressource" type="Area2D"]
+script = ExtResource("1_mglxa")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(2.013021, 2.013021)
+texture = ExtResource("2_mglxa")
+region_rect = Rect2(169.79626, 137.415, 16.72168, 12.687775)
+
+[node name="Area2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_x5c2x")
+
+[node name="Label_Number" type="Label" parent="."]
+offset_left = -1.0
+offset_top = -23.0
+offset_right = 22.0
+offset_bottom = 2.0
+text = "10"
