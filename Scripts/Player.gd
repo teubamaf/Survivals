@@ -15,7 +15,14 @@ signal player_died
 signal inventory_changed
 
 var current_weapon: Weapon = null
-var inventory: Array[Weapon] = []
+var inventory: Array[Weapon] = []  # Ancien système, gardé pour compatibilité
+
+# Système de crafting et ressources
+var resource_inventory = null
+var crafting_manager = null
+
+# Nouveau système d'inventaire 7x3
+var inventory_system: InventorySystem = null
 var is_dashing: bool = false
 var dash_timer: Timer
 var dash_cooldown_timer: Timer
@@ -27,6 +34,22 @@ func _ready():
 	current_health = max_health
 	health_changed.emit(current_health, max_health)
 	add_to_group("player")
+
+	# Initialisation du système d'inventaire 7x3
+	var InventorySystemScript = load("res://Scripts/Inventory/InventorySystem.gd")
+	inventory_system = InventorySystemScript.new()
+	add_child(inventory_system)
+	inventory_system.inventory_changed.connect(_on_inventory_system_changed)
+
+	# Initialisation du système de crafting
+	var ResourceInventoryScript = load("res://Scripts/Crafting/ResourceInventory.gd")
+	resource_inventory = ResourceInventoryScript.new()
+	add_child(resource_inventory)
+
+	var CraftingManagerScript = load("res://Scripts/Crafting/CraftingManager.gd")
+	crafting_manager = CraftingManagerScript.new()
+	add_child(crafting_manager)
+	crafting_manager.player = self
 
 	dash_timer = Timer.new()
 	add_child(dash_timer)
@@ -77,6 +100,8 @@ func _handle_input():
 
 	if Input.is_action_just_pressed("drop_weapon"):
 		_drop_weapon()
+
+	# Menu de crafting géré par CraftingUI (touche C)
 
 func _handle_movement(delta):
 	var input_direction = Vector2.ZERO
@@ -168,11 +193,18 @@ func unequip_weapon():
 		weapon_unequipped.emit()
 
 func add_weapon_to_inventory(weapon: Weapon):
+	# Ajoute au nouveau système d'inventaire
+	if inventory_system and inventory_system.add_item(weapon):
+		print("Ajouté à l'inventaire: ", weapon.weapon_name)
+		# Équipe automatiquement si aucune arme équipée
+		if not current_weapon:
+			equip_weapon_from_inventory(0)
+	else:
+		print("Inventaire plein!")
+
+	# Compatibilité ancien système
 	inventory.append(weapon)
 	inventory_changed.emit()
-	if not current_weapon:
-		equip_weapon(weapon)
-	print("Picked up: ", weapon.weapon_name)
 
 func remove_weapon_from_inventory(weapon: Weapon):
 	if weapon == current_weapon:
@@ -223,3 +255,76 @@ func _die():
 
 func get_health_percent() -> float:
 	return float(current_health) / float(max_health)
+
+## === SYSTÈME DE CRAFTING ===
+
+## Affiche le menu de crafting (version console pour test)
+func _show_crafting_menu():
+	if not crafting_manager or not resource_inventory:
+		print("Système de crafting non initialisé")
+		return
+
+	print("\n=== MENU DE CRAFTING ===")
+
+	# Affiche les ressources
+	print("\n--- Ressources disponibles ---")
+	var resources = resource_inventory.get_all_resources()
+	for resource_name in resources:
+		print("  " + resource_name.capitalize() + ": " + str(resources[resource_name]))
+
+	# Affiche les recettes par catégorie
+	print("\n--- Recettes disponibles ---")
+
+	var categories = ["Basic", "Combat", "Building"]
+	for category in categories:
+		var recipes_in_category = crafting_manager.get_recipes_by_category(category)
+		if recipes_in_category.size() > 0:
+			print("\n[" + category + "]")
+			for recipe in recipes_in_category:
+				var can_craft = recipe.can_craft(resources)
+				var status = "[✓]" if can_craft else "[✗]"
+				print("  " + status + " " + recipe.item_name)
+
+				# Affiche les ressources nécessaires
+				var req_text = "      Requis: "
+				for res_name in recipe.required_resources:
+					var needed = recipe.required_resources[res_name]
+					var has = resource_inventory.get_resource(res_name)
+					req_text += res_name + " " + str(has) + "/" + str(needed) + "  "
+				print(req_text)
+
+	print("\n========================")
+	print("Utilisez player.craft_item('Nom Item') pour crafter")
+
+## Fonction helper pour crafter un item par son nom
+func craft_item(item_name: String) -> bool:
+	if not crafting_manager or not resource_inventory:
+		print("Système de crafting non initialisé")
+		return false
+
+	var recipe = crafting_manager.find_recipe_by_name(item_name)
+	if not recipe:
+		print("Recette introuvable: " + item_name)
+		return false
+
+	var crafted = crafting_manager.craft_item(recipe, resource_inventory, self)
+	return crafted != null
+
+## Ajoute des ressources (pour test)
+func add_resources(resource_name: String, amount: int):
+	if resource_inventory:
+		resource_inventory.add_resource(resource_name, amount)
+		print("Ajouté: " + str(amount) + " " + resource_name)
+
+## Équipe une arme depuis le nouveau système d'inventaire
+func equip_weapon_from_inventory(slot_index: int):
+	if not inventory_system:
+		return
+
+	var weapon = inventory_system.get_item(slot_index)
+	if weapon:
+		equip_weapon(weapon)
+
+## Callback quand l'inventaire système change
+func _on_inventory_system_changed():
+	inventory_changed.emit()  # Émets le signal pour la hotbar

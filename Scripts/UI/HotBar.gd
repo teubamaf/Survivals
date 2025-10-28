@@ -59,15 +59,12 @@ func update_inventory_display():
 	for i in range(num_slots):
 		weapon_icons[i].visible = false
 
-	# Afficher les armes de l'inventaire
-	for i in range(min(player.inventory.size(), num_slots)):
-		var weapon = player.inventory[i]
-		if weapon:
-			_display_weapon_in_slot(i, weapon)
-
-	# Mettre à jour la sélection pour montrer l'arme équipée
-	if player.current_weapon and player.current_weapon in player.inventory:
-		selected_slot = player.inventory.find(player.current_weapon)
+	# Afficher les armes du nouveau système d'inventaire (7 premiers slots = hotbar)
+	if player.inventory_system:
+		for i in range(num_slots):
+			var weapon = player.inventory_system.get_item(i)
+			if weapon:
+				_display_weapon_in_slot(i, weapon)
 
 	update_selection()
 
@@ -92,11 +89,11 @@ func _input(event):
 
 func select_slot(slot_index: int):
 	if slot_index >= 0 and slot_index < num_slots and player:
-		# Vérifier qu'il y a une arme dans ce slot
-		if slot_index < player.inventory.size():
-			selected_slot = slot_index
-			player.equip_weapon(player.inventory[slot_index])
-			update_selection()
+		selected_slot = slot_index
+		# Utilise le nouveau système pour équiper l'arme
+		if player.inventory_system:
+			player.equip_weapon_from_inventory(slot_index)
+		update_selection()
 
 func update_selection():
 	# Mettre à jour visuellement le slot sélectionné

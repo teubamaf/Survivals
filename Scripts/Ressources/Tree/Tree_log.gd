@@ -10,7 +10,9 @@ func set_log_amount(amount: int):
 
 func _on_body_entered(body):
 	if body is Player:
-		# Logique pour ajouter les logs à l'inventaire du joueur
+		# Ajoute le bois à l'inventaire de ressources du joueur
 		var log_amount = int(label.text)
-		print("Ramassé ", log_amount, " bûches")
+		if body.resource_inventory:
+			body.resource_inventory.add_resource("wood", log_amount)
+			print("Ramassé ", log_amount, " bûches (Total: ", body.resource_inventory.get_resource("wood"), ")")
 		queue_free()

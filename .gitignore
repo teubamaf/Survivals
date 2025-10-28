@@ -1,3 +1,5 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+CRAFTING_UI_SETUP.md
+CRAFTING_SYSTEM.md

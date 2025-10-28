@@ -1,0 +1,71 @@
+╔════════════════════════════════════════════════════════════════╗
+║          INSTALLATION RAPIDE - UI DE CRAFTING                  ║
+╚════════════════════════════════════════════════════════════════╝
+
+📋 ÉTAPES SIMPLES (2 minutes)
+
+1. Ouvrez votre scène principale dans Godot
+
+2. Ajoutez un Node :
+   ┌─────────────────────────────────────┐
+   │ Clic droit → Add Child Node → Node │
+   │ Nom : "CraftingUIManager"           │
+   └─────────────────────────────────────┘
+
+3. Attachez le script :
+   ┌───────────────────────────────────────────────────┐
+   │ Sélectionnez "CraftingUIManager"                  │
+   │ Inspecteur → Script → Load                        │
+   │ → res://Scripts/CraftingUIManager.gd              │
+   └───────────────────────────────────────────────────┘
+
+4. Lancez le jeu et appuyez sur C !
+
+╔════════════════════════════════════════════════════════════════╗
+║                      RÉSULTAT ATTENDU                          ║
+╚════════════════════════════════════════════════════════════════╝
+
+┌──────────────────────────────────────────────────────────────┐
+│                         CRAFTING                             │
+├──────────────────────────────────────────────────────────────┤
+│ Ressources: Wood: 47  Stone: 25                             │
+├──────────────────┬──────────────────────────────────────────┤
+│ Recettes         │ Informations                             │
+│                  │                                          │
+│ ✓ Massue en Bois │ Hache en Pierre                         │
+│ ✓ Hache en Pierre│ ──────────────────                      │
+│ ✓ Lance en Bois  │ Hache robuste. Dégâts moyens.          │
+│ ✓ Épée en Pierre │                                          │
+│ ✗ Barricade...   │ Ressources nécessaires:                 │
+│                  │  • Wood: 47/3  ✓                        │
+│                  │  • Stone: 25/5 ✓                        │
+│                  │                                          │
+│                  │ [   CRAFTER   ]                         │
+├──────────────────┴──────────────────────────────────────────┤
+│                      [Fermer (C)]                            │
+└──────────────────────────────────────────────────────────────┘
+
+╔════════════════════════════════════════════════════════════════╗
+║                    CONSOLE DE VÉRIFICATION                     ║
+╚════════════════════════════════════════════════════════════════╝
+
+Quand vous lancez le jeu, vous devriez voir :
+
+✓ UI de crafting initialisée
+
+Si vous voyez ça, c'est PARFAIT ! 🎉
+
+╔════════════════════════════════════════════════════════════════╗
+║                       PROBLÈMES ?                              ║
+╚════════════════════════════════════════════════════════════════╝
+
+❌ "Player non trouvé"
+   → Vérifiez que Player.gd contient : add_to_group("player")
+
+❌ L'UI ne s'ouvre pas
+   → Vérifiez que CraftingUIManager.gd est bien attaché
+
+❌ Erreur de chargement de scène
+   → Vérifiez que CraftingUI.tscn existe dans Scenes/
+
+Pour plus de détails : Voir CRAFTING_UI_SETUP.md

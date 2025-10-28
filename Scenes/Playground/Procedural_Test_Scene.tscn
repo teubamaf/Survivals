@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://d01opnng02mnx"]
+[gd_scene load_steps=15 format=3 uid="uid://d01opnng02mnx"]
 
 [ext_resource type="Script" uid="uid://c35oeyqtf07i4" path="res://Scripts/MapGenerator.gd" id="1_mapgen"]
 [ext_resource type="PackedScene" uid="uid://cuegfhxyssadw" path="res://Scenes/Player.tscn" id="2_player"]
@@ -9,6 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://cheh4np5x2b4i" path="res://Scenes/WeaponPickup.tscn" id="7_g7c3n"]
 [ext_resource type="PackedScene" uid="uid://can8ovh6c6jdm" path="res://Scenes/Weapon/Weapon_Gun.tscn" id="8_vg3u0"]
 [ext_resource type="PackedScene" uid="uid://w3tg6hf1aisx" path="res://Scenes/Weapon/Weapon_Axe.tscn" id="9_uwvby"]
+[ext_resource type="Script" uid="uid://dy1eq7hs3mdfy" path="res://Scripts/TestCrafting.gd" id="10_vg3u0"]
+[ext_resource type="Script" uid="uid://34ndhy0lilaf" path="res://Scripts/CraftingUIManager.gd" id="11_crafting"]
+[ext_resource type="Script" uid="uid://mmjqtee6n8ya" path="res://Scripts/InventoryUIManager.gd" id="12_inventory"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_grass"]
 texture = ExtResource("6_tilemap")
@@ -43,15 +46,58 @@ zombie_scene = ExtResource("5_zombie")
 safe_zone_radius = 300.0
 
 [node name="WeaponPickup" parent="." instance=ExtResource("7_g7c3n")]
-position = Vector2(93, 90)
+position = Vector2(75, 113)
 collision_layer = 1
-collision_mask = 1
 weapon_scene = ExtResource("9_uwvby")
 weapon_name = "Axe"
 
 [node name="WeaponPickup2" parent="." instance=ExtResource("7_g7c3n")]
 position = Vector2(-105, 88)
 collision_layer = 1
-collision_mask = 1
 weapon_scene = ExtResource("8_vg3u0")
 weapon_name = "Gun"
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("10_vg3u0")
+
+[node name="CraftingUIManager" type="Node" parent="."]
+script = ExtResource("11_crafting")
+
+[node name="InventoryUIManager" type="Node" parent="."]
+script = ExtResource("12_inventory")
+
+[node name="WeaponPickup3" parent="." instance=ExtResource("7_g7c3n")]
+position = Vector2(286, 102)
+collision_layer = 1
+weapon_scene = ExtResource("9_uwvby")
+weapon_name = "Axe"
+
+[node name="WeaponPickup4" parent="." instance=ExtResource("7_g7c3n")]
+position = Vector2(72, -7)
+collision_layer = 1
+weapon_scene = ExtResource("9_uwvby")
+weapon_name = "Axe"
+
+[node name="WeaponPickup5" parent="." instance=ExtResource("7_g7c3n")]
+position = Vector2(-192, -39)
+collision_layer = 1
+weapon_scene = ExtResource("9_uwvby")
+weapon_name = "Axe"
+
+[node name="WeaponPickup6" parent="." instance=ExtResource("7_g7c3n")]
+position = Vector2(-33, -153)
+collision_layer = 1
+weapon_scene = ExtResource("9_uwvby")
+weapon_name = "Axe"
+
+[node name="WeaponPickup7" parent="." instance=ExtResource("7_g7c3n")]
+position = Vector2(173, -30)
+collision_layer = 1
+weapon_scene = ExtResource("9_uwvby")
+weapon_name = "Axe"
+
+[node name="WeaponPickup8" parent="." instance=ExtResource("7_g7c3n")]
+position = Vector2(98, -117)
+collision_layer = 1
+weapon_scene = ExtResource("9_uwvby")
+weapon_name = "Axe"
