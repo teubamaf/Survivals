@@ -84,18 +84,29 @@ func craft_item(recipe: CraftingRecipe, resource_inventory: ResourceInventory, t
 	var crafted_item = null
 
 	if recipe.result_scene:
+		# Utilise la scène définie
 		crafted_item = recipe.result_scene.instantiate()
+	elif recipe.item_type == "Weapon":
+		# Crée une arme basique si pas de scène (utilise la hache par défaut)
+		var default_weapon_scene = load("res://Scenes/Weapon/Weapon_Axe.tscn")
+		if default_weapon_scene:
+			crafted_item = default_weapon_scene.instantiate()
+			if crafted_item is Weapon:
+				crafted_item.weapon_name = recipe.item_name
+			print("⚠ Arme créée avec template par défaut: " + recipe.item_name)
 
-		# Si c'est une arme et qu'on a un joueur, l'ajoute directement à l'inventaire
-		if target_player and crafted_item is Weapon:
+	if crafted_item and target_player:
+		# Si c'est une arme, l'ajoute à l'inventaire
+		if crafted_item is Weapon:
 			target_player.add_weapon_to_inventory(crafted_item)
-			print("Arme craftée et ajoutée à l'inventaire: " + recipe.item_name)
+			print("✓ Arme craftée et ajoutée: " + recipe.item_name)
 		else:
-			# Sinon, on spawn l'objet près du joueur
-			if target_player:
-				target_player.get_parent().add_child(crafted_item)
-				crafted_item.global_position = target_player.global_position + Vector2(50, 0)
-			print("Item crafté: " + recipe.item_name)
+			# Sinon, spawn près du joueur
+			target_player.get_parent().add_child(crafted_item)
+			crafted_item.global_position = target_player.global_position + Vector2(50, 0)
+			print("✓ Item crafté: " + recipe.item_name)
+	elif not crafted_item:
+		print("❌ Impossible de créer: " + recipe.item_name)
 
 	item_crafted.emit(recipe, crafted_item)
 	return crafted_item
