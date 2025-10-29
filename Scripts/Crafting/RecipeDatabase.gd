@@ -114,6 +114,7 @@ static func _create_wooden_wall() -> CraftingRecipe:
 	recipe.required_resources = {"wood": 15}
 	recipe.item_type = "Structure"
 	recipe.category = "Building"
+	recipe.result_scene = load("res://Scenes/Buildings/Walls/Wood_Wall.tscn")
 	return recipe
 
 static func _create_stone_barricade() -> CraftingRecipe:

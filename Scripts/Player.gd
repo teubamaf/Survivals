@@ -23,6 +23,10 @@ var crafting_manager = null
 
 # Nouveau système d'inventaire 7x3
 var inventory_system: InventorySystem = null
+
+# Système de placement de structures
+var building_placer: BuildingPlacer = null
+
 var is_dashing: bool = false
 var dash_timer: Timer
 var dash_cooldown_timer: Timer
@@ -50,6 +54,11 @@ func _ready():
 	crafting_manager = CraftingManagerScript.new()
 	add_child(crafting_manager)
 	crafting_manager.player = self
+
+	# Initialisation du système de placement de structures
+	var BuildingPlacerScript = load("res://Scripts/Buildings/BuildingPlacer.gd")
+	building_placer = BuildingPlacerScript.new()
+	add_child(building_placer)
 
 	dash_timer = Timer.new()
 	add_child(dash_timer)
@@ -193,18 +202,31 @@ func unequip_weapon():
 		weapon_unequipped.emit()
 
 func add_weapon_to_inventory(weapon: Weapon):
+	# Crée un Item depuis l'arme
+	var item = Item.from_weapon(weapon)
+
 	# Ajoute au nouveau système d'inventaire
-	if inventory_system and inventory_system.add_item(weapon):
-		print("Ajouté à l'inventaire: ", weapon.weapon_name)
+	if inventory_system and inventory_system.add_item(item):
+		print("✓ Ajouté à l'inventaire: ", weapon.weapon_name)
 		# Équipe automatiquement si aucune arme équipée
 		if not current_weapon:
 			equip_weapon_from_inventory(0)
 	else:
-		print("Inventaire plein!")
+		print("❌ Inventaire plein!")
 
 	# Compatibilité ancien système
 	inventory.append(weapon)
 	inventory_changed.emit()
+
+## Ajoute un item générique à l'inventaire
+func add_item_to_inventory(item: Item) -> bool:
+	if inventory_system and inventory_system.add_item(item):
+		print("✓ Item ajouté: ", item.item_name)
+		inventory_changed.emit()
+		return true
+	else:
+		print("❌ Inventaire plein!")
+		return false
 
 func remove_weapon_from_inventory(weapon: Weapon):
 	if weapon == current_weapon:
@@ -321,9 +343,9 @@ func equip_weapon_from_inventory(slot_index: int):
 	if not inventory_system:
 		return
 
-	var weapon = inventory_system.get_item(slot_index)
-	if weapon:
-		equip_weapon(weapon)
+	var item = inventory_system.get_item(slot_index)
+	if item and item.item_type == "Weapon" and item.weapon_instance:
+		equip_weapon(item.weapon_instance)
 
 ## Callback quand l'inventaire système change
 func _on_inventory_system_changed():

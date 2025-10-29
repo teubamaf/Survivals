@@ -83,9 +83,11 @@ func refresh_display():
 		slots[i].set_item(item)
 
 func _on_slot_clicked(slot: InventorySlot):
-	# Équiper l'arme si c'est un slot de hotbar
-	if slot.is_hotbar_slot and slot.has_item() and player:
-		player.equip_weapon_from_inventory(slot.slot_index)
+	# Utilise l'item (équipe arme ou active mode placement)
+	if slot.has_item() and player:
+		var item = slot.get_item()
+		if item:
+			item.use(player)
 
 func _on_item_dropped(from_slot: InventorySlot, to_slot: InventorySlot):
 	if not inventory_system:

@@ -4,14 +4,14 @@ class_name InventorySystem
 ## Système d'inventaire 7x3 slots (21 slots total)
 
 signal inventory_changed
-signal item_added(item: Weapon, slot_index: int)
-signal item_removed(item: Weapon, slot_index: int)
+signal item_added(item: Item, slot_index: int)
+signal item_removed(item: Item, slot_index: int)
 signal items_swapped(slot1: int, slot2: int)
 
 const TOTAL_SLOTS = 21  # 7 colonnes x 3 lignes
 const HOTBAR_SLOTS = 7  # Première ligne visible
 
-var slots: Array[Weapon] = []
+var slots: Array[Item] = []
 
 func _ready():
 	# Initialiser tous les slots à null
@@ -20,7 +20,7 @@ func _ready():
 		slots[i] = null
 
 ## Ajoute un item dans le premier slot vide
-func add_item(item: Weapon) -> bool:
+func add_item(item: Item) -> bool:
 	for i in range(TOTAL_SLOTS):
 		if slots[i] == null:
 			slots[i] = item
@@ -30,7 +30,7 @@ func add_item(item: Weapon) -> bool:
 	return false  # Inventaire plein
 
 ## Retire un item d'un slot spécifique
-func remove_item(slot_index: int) -> Weapon:
+func remove_item(slot_index: int) -> Item:
 	if slot_index < 0 or slot_index >= TOTAL_SLOTS:
 		return null
 
@@ -42,13 +42,13 @@ func remove_item(slot_index: int) -> Weapon:
 	return item
 
 ## Récupère l'item dans un slot
-func get_item(slot_index: int) -> Weapon:
+func get_item(slot_index: int) -> Item:
 	if slot_index < 0 or slot_index >= TOTAL_SLOTS:
 		return null
 	return slots[slot_index]
 
 ## Place un item dans un slot spécifique
-func set_item(slot_index: int, item: Weapon) -> bool:
+func set_item(slot_index: int, item: Item) -> bool:
 	if slot_index < 0 or slot_index >= TOTAL_SLOTS:
 		return false
 
@@ -103,14 +103,14 @@ func get_empty_slot_count() -> int:
 	return count
 
 ## Récupère tous les items de la hotbar (7 premiers slots)
-func get_hotbar_items() -> Array[Weapon]:
-	var hotbar: Array[Weapon] = []
+func get_hotbar_items() -> Array[Item]:
+	var hotbar: Array[Item] = []
 	for i in range(HOTBAR_SLOTS):
 		hotbar.append(slots[i])
 	return hotbar
 
 ## Récupère tous les items
-func get_all_items() -> Array[Weapon]:
+func get_all_items() -> Array[Item]:
 	return slots.duplicate()
 
 ## Vide l'inventaire

@@ -59,25 +59,33 @@ func update_inventory_display():
 	for i in range(num_slots):
 		weapon_icons[i].visible = false
 
-	# Afficher les armes du nouveau système d'inventaire (7 premiers slots = hotbar)
+	# Afficher les items du nouveau système d'inventaire (7 premiers slots = hotbar)
 	if player.inventory_system:
 		for i in range(num_slots):
-			var weapon = player.inventory_system.get_item(i)
-			if weapon:
-				_display_weapon_in_slot(i, weapon)
+			var item = player.inventory_system.get_item(i)
+			if item:
+				_display_item_in_slot(i, item)
 
 	update_selection()
 
-func _display_weapon_in_slot(slot_index: int, weapon: Weapon):
+func _display_item_in_slot(slot_index: int, item: Item):
 	if slot_index < 0 or slot_index >= weapon_icons.size():
 		return
 
-	var weapon_sprite = weapon.get_node_or_null("Sprite2D")
-	if weapon_sprite and weapon_sprite is Sprite2D:
-		weapon_icons[slot_index].texture = weapon_sprite.texture
-		weapon_icons[slot_index].scale = weapon_sprite.scale * 0.8
+	# Si l'item a une icône
+	if item.icon:
+		weapon_icons[slot_index].texture = item.icon
+		weapon_icons[slot_index].scale = Vector2(0.8, 0.8)
 		weapon_icons[slot_index].rotation = 0
 		weapon_icons[slot_index].visible = true
+	# Sinon essaye de récupérer depuis l'arme
+	elif item.weapon_instance:
+		var weapon_sprite = item.weapon_instance.get_node_or_null("Sprite2D")
+		if weapon_sprite and weapon_sprite is Sprite2D:
+			weapon_icons[slot_index].texture = weapon_sprite.texture
+			weapon_icons[slot_index].scale = weapon_sprite.scale * 0.8
+			weapon_icons[slot_index].rotation = 0
+			weapon_icons[slot_index].visible = true
 
 func _input(event):
 	# Sélection des slots avec les touches 1-7
@@ -90,9 +98,11 @@ func _input(event):
 func select_slot(slot_index: int):
 	if slot_index >= 0 and slot_index < num_slots and player:
 		selected_slot = slot_index
-		# Utilise le nouveau système pour équiper l'arme
+		# Utilise l'item du slot
 		if player.inventory_system:
-			player.equip_weapon_from_inventory(slot_index)
+			var item = player.inventory_system.get_item(slot_index)
+			if item:
+				item.use(player)
 		update_selection()
 
 func update_selection():

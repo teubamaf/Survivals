@@ -49,21 +49,36 @@ func _physics_process(delta):
 	_handle_combat()
 
 func _update_target():
+	# Cherche d'abord les joueurs
 	var players = get_tree().get_nodes_in_group("player")
+	var closest_target = null
+	var closest_distance = INF
+
 	if players.size() > 0:
-		var closest_player = players[0]
-		var closest_distance = _distance_to(closest_player)
+		closest_target = players[0]
+		closest_distance = _distance_to(closest_target)
 
 		for player in players:
 			var distance = _distance_to(player)
 			if distance < closest_distance:
-				closest_player = player
+				closest_target = player
 				closest_distance = distance
 
-		if closest_distance <= detection_range:
-			target = closest_player
-		elif closest_distance > detection_range * 1.5:
-			target = null
+	# Si pas de joueur proche, cherche les structures
+	if closest_distance > detection_range * 0.5:
+		var structures = get_tree().get_nodes_in_group("structures")
+		for structure in structures:
+			if structure is PlaceableStructure and structure.is_placed:
+				var distance = _distance_to(structure)
+				if distance < closest_distance and distance < detection_range * 0.8:
+					closest_target = structure
+					closest_distance = distance
+
+	# Définit la cible
+	if closest_distance <= detection_range:
+		target = closest_target
+	elif closest_distance > detection_range * 1.5:
+		target = null
 
 func _handle_state_machine():
 	match state:

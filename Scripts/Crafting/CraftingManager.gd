@@ -95,17 +95,22 @@ func craft_item(recipe: CraftingRecipe, resource_inventory: ResourceInventory, t
 				crafted_item.weapon_name = recipe.item_name
 			print("⚠ Arme créée avec template par défaut: " + recipe.item_name)
 
-	if crafted_item and target_player:
-		# Si c'est une arme, l'ajoute à l'inventaire
-		if crafted_item is Weapon:
+	if target_player:
+		# Si c'est une arme
+		if crafted_item and crafted_item is Weapon:
 			target_player.add_weapon_to_inventory(crafted_item)
-			print("✓ Arme craftée et ajoutée: " + recipe.item_name)
-		else:
-			# Sinon, spawn près du joueur
+		# Si c'est une structure, ajoute à l'inventaire comme Item
+		elif recipe.item_type == "Structure":
+			if crafted_item:
+				crafted_item.queue_free()  # Détruit l'instance temporaire
+			var structure_item = Item.from_structure_recipe(recipe)
+			target_player.add_item_to_inventory(structure_item)
+		# Autre type d'item
+		elif crafted_item:
 			target_player.get_parent().add_child(crafted_item)
 			crafted_item.global_position = target_player.global_position + Vector2(50, 0)
 			print("✓ Item crafté: " + recipe.item_name)
-	elif not crafted_item:
+	elif not crafted_item and recipe.item_type != "Structure":
 		print("❌ Impossible de créer: " + recipe.item_name)
 
 	item_crafted.emit(recipe, crafted_item)

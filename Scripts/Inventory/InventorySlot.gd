@@ -7,7 +7,7 @@ signal slot_clicked(slot: InventorySlot)
 signal item_dropped_on_slot(from_slot: InventorySlot, to_slot: InventorySlot)
 
 var slot_index: int = -1
-var item: Weapon = null
+var item: Item = null
 var is_hotbar_slot: bool = false
 
 var item_sprite: Sprite2D = null
@@ -31,11 +31,11 @@ func _ready():
 
 	_update_display()
 
-func set_item(new_item: Weapon):
+func set_item(new_item: Item):
 	item = new_item
 	_update_display()
 
-func get_item() -> Weapon:
+func get_item() -> Item:
 	return item
 
 func clear():
@@ -50,13 +50,22 @@ func _update_display():
 		return
 
 	if item:
-		# Récupère le sprite de l'arme
-		var weapon_sprite = item.get_node_or_null("Sprite2D")
-		if weapon_sprite and weapon_sprite is Sprite2D:
-			item_sprite.texture = weapon_sprite.texture
-			item_sprite.scale = weapon_sprite.scale * 0.8
+		# Si l'item a une icône, l'utilise
+		if item.icon:
+			item_sprite.texture = item.icon
+			item_sprite.scale = Vector2(0.8, 0.8)
 			item_sprite.rotation = 0
 			item_sprite.visible = true
+		# Sinon essaye de récupérer depuis l'arme
+		elif item.weapon_instance:
+			var weapon_sprite = item.weapon_instance.get_node_or_null("Sprite2D")
+			if weapon_sprite and weapon_sprite is Sprite2D:
+				item_sprite.texture = weapon_sprite.texture
+				item_sprite.scale = weapon_sprite.scale * 0.8
+				item_sprite.rotation = 0
+				item_sprite.visible = true
+			else:
+				item_sprite.visible = false
 		else:
 			item_sprite.visible = false
 	else:
