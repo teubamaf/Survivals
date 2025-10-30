@@ -1,6 +1,9 @@
 extends WeaponMelee
 class_name AxeWeapon
 
+@onready var swing_sound: AudioStreamPlayer2D = $SwingSound
+@onready var hit_sound: AudioStreamPlayer2D = $HitSound
+
 var original_rotation: float
 var is_swinging: bool = false
 
@@ -21,11 +24,46 @@ func _ready():
 
 func _perform_attack(target_position: Vector2):
 	_perform_swing_effect()
-	await super._perform_attack(target_position)
+
+	# Appeler l'attaque parente et vérifier si on a touché quelque chose
+	var attack_area = await _get_attack_area()
+	var bodies = attack_area.get_overlapping_bodies()
+
+	var hit_something = false
+	for body in bodies:
+		if body.has_method("take_damage") and body != get_parent():
+			var direction = (body.global_position - global_position).normalized()
+			body.take_damage(get_attack_damage())
+			if body.has_method("apply_knockback"):
+				body.apply_knockback(direction * knockback_force * 0.5)
+			hit_something = true
+
+	# Jouer le son de hit si on a touché quelque chose
+	if hit_something and hit_sound:
+		hit_sound.pitch_scale = randf_range(0.95, 1.05)
+		hit_sound.play()
 
 func _perform_heavy_attack(target_position: Vector2):
 	_perform_heavy_swing_effect()
-	await super._perform_heavy_attack(target_position)
+
+	# Appeler l'attaque parente et vérifier si on a touché quelque chose
+	var attack_area = await _get_attack_area()
+	var bodies = attack_area.get_overlapping_bodies()
+
+	var hit_something = false
+	for body in bodies:
+		if body.has_method("take_damage") and body != get_parent():
+			var direction = (body.global_position - global_position).normalized()
+			var heavy_damage = int(get_attack_damage() * heavy_attack_multiplier)
+			body.take_damage(heavy_damage)
+			if body.has_method("apply_knockback"):
+				body.apply_knockback(direction * knockback_force)
+			hit_something = true
+
+	# Jouer le son de hit si on a touché quelque chose (plus grave pour heavy)
+	if hit_something and hit_sound:
+		hit_sound.pitch_scale = randf_range(0.85, 0.95)  # Plus grave
+		hit_sound.play()
 
 func _perform_swing_effect():
 	if is_swinging:
@@ -34,6 +72,11 @@ func _perform_swing_effect():
 	is_swinging = true
 	original_rotation = 0.0  # Toujours revenir à 0
 	rotation = 0.0  # S'assurer qu'on part de 0
+
+	# Jouer le son de swing
+	if swing_sound:
+		swing_sound.pitch_scale = randf_range(0.9, 1.1)  # Variation aléatoire
+		swing_sound.play()
 
 	var swing_tween = create_tween()
 
@@ -60,6 +103,11 @@ func _perform_heavy_swing_effect():
 	is_swinging = true
 	original_rotation = 0.0  # Toujours revenir à 0
 	rotation = 0.0  # S'assurer qu'on part de 0
+
+	# Jouer le son de swing (plus grave pour heavy attack)
+	if swing_sound:
+		swing_sound.pitch_scale = randf_range(0.75, 0.85)  # Plus grave que l'attaque normale
+		swing_sound.play()
 
 	var heavy_swing_tween = create_tween()
 

@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://w3tg6hf1aisx"]
+[gd_scene load_steps=6 format=3 uid="uid://w3tg6hf1aisx"]
 
 [ext_resource type="Script" uid="uid://c58bejetx6057" path="res://Scripts/Weapons/Weapon List/AxeWeapon.gd" id="1_bkata"]
 [ext_resource type="Texture2D" uid="uid://cbc2d7c83vmaf" path="res://Assets/Weapon/tile_0009.png" id="2_bkata"]
+[ext_resource type="AudioStream" uid="uid://be3chqvs26hv1" path="res://Assets/Sounds/Weapon/Axe/swing.wav" id="3_yta01"]
+[ext_resource type="AudioStream" uid="uid://8krfy4uqet24" path="res://Assets/Sounds/Weapon/Axe/hit.ogg" id="4_j05pl"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yqltp"]
 radius = 10.173755
@@ -20,3 +22,9 @@ texture = ExtResource("2_bkata")
 position = Vector2(12, -13.999999)
 scale = Vector2(-1.6474454, 1.2632496)
 shape = SubResource("CircleShape2D_yqltp")
+
+[node name="SwingSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_yta01")
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_j05pl")
