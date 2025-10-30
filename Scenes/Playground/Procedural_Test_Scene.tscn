@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://d01opnng02mnx"]
+[gd_scene load_steps=17 format=3 uid="uid://d01opnng02mnx"]
 
 [ext_resource type="Script" uid="uid://c35oeyqtf07i4" path="res://Scripts/MapGenerator.gd" id="1_mapgen"]
 [ext_resource type="PackedScene" uid="uid://cuegfhxyssadw" path="res://Scenes/Player.tscn" id="2_player"]
@@ -12,6 +12,8 @@
 [ext_resource type="Script" uid="uid://dy1eq7hs3mdfy" path="res://Scripts/TestCrafting.gd" id="10_vg3u0"]
 [ext_resource type="Script" uid="uid://34ndhy0lilaf" path="res://Scripts/CraftingUIManager.gd" id="11_crafting"]
 [ext_resource type="Script" uid="uid://mmjqtee6n8ya" path="res://Scripts/InventoryUIManager.gd" id="12_inventory"]
+[ext_resource type="Script" uid="uid://cb33bjejw7i5r" path="res://Scripts/AmmoDisplayManager.gd" id="13_ammo"]
+[ext_resource type="Script" uid="uid://bp4m8nqcu3xe" path="res://Scripts/WaveManager.gd" id="14_wave"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_grass"]
 texture = ExtResource("6_tilemap")
@@ -65,6 +67,13 @@ script = ExtResource("11_crafting")
 
 [node name="InventoryUIManager" type="Node" parent="."]
 script = ExtResource("12_inventory")
+
+[node name="AmmoDisplayManager" type="Node" parent="."]
+script = ExtResource("13_ammo")
+
+[node name="WaveManager" type="Node" parent="."]
+script = ExtResource("14_wave")
+zombie_scene = ExtResource("5_zombie")
 
 [node name="WeaponPickup3" parent="." instance=ExtResource("7_g7c3n")]
 position = Vector2(286, 102)

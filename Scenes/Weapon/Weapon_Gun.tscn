@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://can8ovh6c6jdm"]
+[gd_scene load_steps=7 format=3 uid="uid://can8ovh6c6jdm"]
 
 [ext_resource type="Script" uid="uid://c6t87orrhmsa8" path="res://Scripts/Weapons/Weapon List/PistolWeapon.gd" id="1_yqltp"]
 [ext_resource type="PackedScene" uid="uid://b28cjrfs5nph3" path="res://Scenes/Weapon/Weapon_Projectile.tscn" id="2_5nnhj"]
 [ext_resource type="Texture2D" uid="uid://e5oxk3dmaqyb" path="res://Assets/Weapon/tile_0001.png" id="3_5nnhj"]
+[ext_resource type="AudioStream" uid="uid://dss518i3uirpi" path="res://Assets/Sounds/Weapon/Pistol/shoot.wav" id="4_kwigi"]
+[ext_resource type="AudioStream" uid="uid://gjbw8401fvku" path="res://Assets/Sounds/Weapon/Pistol/reload.wav" id="5_70yyu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yqltp"]
 
@@ -19,3 +21,9 @@ texture = ExtResource("3_5nnhj")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(1.1479203, 1.0238062)
 shape = SubResource("CircleShape2D_yqltp")
+
+[node name="ShootSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_kwigi")
+
+[node name="ReloadSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_70yyu")

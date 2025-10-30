@@ -10,9 +10,10 @@ extends Control
 
 var player: Player = null
 var weapon_icons: Array[Sprite2D] = []
+var quantity_labels: Array[Label] = []
 
 func _ready():
-	# Créer les sprites pour les icônes d'armes
+	# Créer les sprites pour les icônes d'armes et les labels de quantité
 	for i in range(num_slots):
 		var weapon_icon = Sprite2D.new()
 		weapon_icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -21,6 +22,17 @@ func _ready():
 		weapon_icon.position = Vector2(32, 32)  # Centre du slot 64x64
 		slots_container.get_child(i).add_child(weapon_icon)
 		weapon_icons.append(weapon_icon)
+
+		# Créer le label pour la quantité
+		var quantity_label = Label.new()
+		quantity_label.position = Vector2(40, 40)
+		quantity_label.add_theme_font_size_override("font_size", 14)
+		quantity_label.add_theme_color_override("font_color", Color.WHITE)
+		quantity_label.add_theme_color_override("font_outline_color", Color.BLACK)
+		quantity_label.add_theme_constant_override("outline_size", 2)
+		quantity_label.visible = false
+		slots_container.get_child(i).add_child(quantity_label)
+		quantity_labels.append(quantity_label)
 
 	# La barre se positionne automatiquement en bas au centre grâce aux anchors
 	update_selection()
@@ -58,6 +70,7 @@ func update_inventory_display():
 	# Effacer tous les slots
 	for i in range(num_slots):
 		weapon_icons[i].visible = false
+		quantity_labels[i].visible = false
 
 	# Afficher les items du nouveau système d'inventaire (7 premiers slots = hotbar)
 	if player.inventory_system:
@@ -75,7 +88,7 @@ func _display_item_in_slot(slot_index: int, item: Item):
 	# Si l'item a une icône
 	if item.icon:
 		weapon_icons[slot_index].texture = item.icon
-		weapon_icons[slot_index].scale = Vector2(0.8, 0.8)
+		weapon_icons[slot_index].scale = Vector2(1.5, 1.5)
 		weapon_icons[slot_index].rotation = 0
 		weapon_icons[slot_index].visible = true
 	# Sinon essaye de récupérer depuis l'arme
@@ -83,9 +96,14 @@ func _display_item_in_slot(slot_index: int, item: Item):
 		var weapon_sprite = item.weapon_instance.get_node_or_null("Sprite2D")
 		if weapon_sprite and weapon_sprite is Sprite2D:
 			weapon_icons[slot_index].texture = weapon_sprite.texture
-			weapon_icons[slot_index].scale = weapon_sprite.scale * 0.8
+			weapon_icons[slot_index].scale = weapon_sprite.scale * 1.5
 			weapon_icons[slot_index].rotation = 0
 			weapon_icons[slot_index].visible = true
+
+	# Afficher la quantité si > 1
+	if item.quantity > 1:
+		quantity_labels[slot_index].text = str(item.quantity)
+		quantity_labels[slot_index].visible = true
 
 func _input(event):
 	# Sélection des slots avec les touches 1-7
@@ -102,7 +120,7 @@ func select_slot(slot_index: int):
 		if player.inventory_system:
 			var item = player.inventory_system.get_item(slot_index)
 			if item:
-				item.use(player)
+				item.use(player, slot_index)
 		update_selection()
 
 func update_selection():

@@ -17,6 +17,9 @@ var weapon_instance: Weapon = null
 ## Pour les structures : référence à la scène
 var structure_scene: PackedScene = null
 
+## Quantité d'items stackés (pour les structures et consommables)
+var quantity: int = 1
+
 ## Crée un Item depuis une arme
 static func from_weapon(weapon: Weapon) -> Item:
 	var item = Item.new()
@@ -42,13 +45,13 @@ static func from_structure_recipe(recipe: CraftingRecipe) -> Item:
 	return item
 
 ## Utilise l'item
-func use(player: Player) -> bool:
+func use(player: Player, slot_index: int = -1) -> bool:
 	if item_type == "Weapon" and weapon_instance:
 		# Équipe l'arme
 		player.equip_weapon(weapon_instance)
 		return true
 	elif item_type == "Structure" and structure_scene and player.building_placer:
-		# Active le mode placement
-		player.building_placer.start_placing(structure_scene)
+		# Active le mode placement et passe le slot_index pour décrémenter après placement
+		player.building_placer.start_placing_with_decrement(structure_scene, player, slot_index)
 		return true
 	return false

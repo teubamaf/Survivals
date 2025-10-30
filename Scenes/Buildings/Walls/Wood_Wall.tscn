@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://d2v1falyjyi1n"]
 
 [ext_resource type="Texture2D" uid="uid://d00lbnyfkf8yr" path="res://Assets/Tilemap/Ressources/tilemap.png" id="1_uy72n"]
-[ext_resource type="Script" path="res://Scripts/Buildings/PlaceableStructure.gd" id="2_script"]
+[ext_resource type="Script" uid="uid://dx6emhjc580dx" path="res://Scripts/Buildings/PlaceableStructure.gd" id="2_script"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4a8ts"]
 size = Vector2(46, 23)

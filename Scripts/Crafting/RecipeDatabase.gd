@@ -111,10 +111,17 @@ static func _create_wooden_wall() -> CraftingRecipe:
 	var recipe = CraftingRecipe.new()
 	recipe.item_name = "Mur en Bois"
 	recipe.description = "Mur défensif. Bloque les ennemis et les projectiles."
-	recipe.required_resources = {"wood": 15}
+	recipe.required_resources = {"wood": 5}
 	recipe.item_type = "Structure"
 	recipe.category = "Building"
 	recipe.result_scene = load("res://Scenes/Buildings/Walls/Wood_Wall.tscn")
+
+	# Créer une AtlasTexture pour extraire juste la région du mur
+	var atlas = AtlasTexture.new()
+	atlas.atlas = load("res://Assets/Tilemap/Ressources/tilemap.png")
+	atlas.region = Rect2(152.96355, 106.95225, 16.012833, 8.087288)
+	recipe.icon = atlas
+
 	return recipe
 
 static func _create_stone_barricade() -> CraftingRecipe:

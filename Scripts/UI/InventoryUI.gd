@@ -7,6 +7,7 @@ class_name InventoryUI
 
 var slots: Array[InventorySlot] = []
 var inventory_system: InventorySystem
+var tooltip: ItemTooltip = null
 
 const COLUMNS = 7
 const ROWS = 3
@@ -20,6 +21,11 @@ var is_open: bool = false
 
 func _ready():
 	hide()
+
+	# Créer le tooltip
+	var TooltipScene = load("res://Scenes/UI/ItemTooltip.tscn")
+	tooltip = TooltipScene.instantiate()
+	add_child(tooltip)
 
 	# Attendre que tous les nodes soient prêts
 	await get_tree().process_frame
@@ -36,6 +42,8 @@ func _ready():
 			slot.is_hotbar_slot = (i < 7)  # Première ligne = hotbar
 			slot.slot_clicked.connect(_on_slot_clicked)
 			slot.item_dropped_on_slot.connect(_on_item_dropped)
+			slot.mouse_entered_slot.connect(_on_slot_mouse_entered)
+			slot.mouse_exited_slot.connect(_on_slot_mouse_exited)
 
 			# Ajouter une bordure plus visible pour la hotbar
 			if slot.is_hotbar_slot:
@@ -87,7 +95,10 @@ func _on_slot_clicked(slot: InventorySlot):
 	if slot.has_item() and player:
 		var item = slot.get_item()
 		if item:
-			item.use(player)
+			item.use(player, slot.slot_index)
+			# Fermer l'inventaire après avoir utilisé une structure
+			if item.item_type == "Structure":
+				close_inventory()
 
 func _on_item_dropped(from_slot: InventorySlot, to_slot: InventorySlot):
 	if not inventory_system:
@@ -95,3 +106,12 @@ func _on_item_dropped(from_slot: InventorySlot, to_slot: InventorySlot):
 
 	inventory_system.move_item(from_slot.slot_index, to_slot.slot_index)
 	refresh_display()
+
+func _on_slot_mouse_entered(slot: InventorySlot):
+	if tooltip and slot.has_item():
+		var item = slot.get_item()
+		tooltip.show_tooltip(item, get_global_mouse_position())
+
+func _on_slot_mouse_exited(_slot: InventorySlot):
+	if tooltip:
+		tooltip.hide_tooltip()

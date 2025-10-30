@@ -167,37 +167,90 @@ func _display_recipe_info(recipe: CraftingRecipe):
 	spacer.custom_minimum_size = Vector2(0, 20)
 	recipe_info_container.add_child(spacer)
 
-	# Bouton de craft
-	var craft_button = Button.new()
-	craft_button.text = "CRAFTER"
-	craft_button.custom_minimum_size = Vector2(0, 50)
-	craft_button.pressed.connect(_on_craft_button_pressed.bind(recipe))
+	# Container pour les boutons de craft
+	var craft_buttons_container = HBoxContainer.new()
+	craft_buttons_container.alignment = BoxContainer.ALIGNMENT_CENTER
+	craft_buttons_container.add_theme_constant_override("separation", 8)
+	recipe_info_container.add_child(craft_buttons_container)
 
 	# Désactive le bouton si pas assez de ressources
 	var can_craft = recipe.can_craft(resources)
-	craft_button.disabled = not can_craft
 
-	recipe_info_container.add_child(craft_button)
+	# Bouton Craft x1
+	var craft_x1_button = Button.new()
+	craft_x1_button.text = "Craft x1"
+	craft_x1_button.custom_minimum_size = Vector2(100, 50)
+	craft_x1_button.pressed.connect(_on_craft_multiple_pressed.bind(recipe, 1))
+	craft_x1_button.disabled = not can_craft
+	craft_buttons_container.add_child(craft_x1_button)
 
-## Appelé quand on clique sur le bouton Craft
-func _on_craft_button_pressed(recipe: CraftingRecipe):
+	# Bouton Craft x5
+	var craft_x5_button = Button.new()
+	craft_x5_button.text = "Craft x5"
+	craft_x5_button.custom_minimum_size = Vector2(100, 50)
+	craft_x5_button.pressed.connect(_on_craft_multiple_pressed.bind(recipe, 5))
+	# Vérifie si on peut crafter 5 fois
+	var can_craft_x5 = _can_craft_multiple_times(recipe, resources, 5)
+	craft_x5_button.disabled = not can_craft_x5
+	craft_buttons_container.add_child(craft_x5_button)
+
+	# Bouton Craft Max
+	var max_craftable = _calculate_max_craftable(recipe, resources)
+	var craft_max_button = Button.new()
+	craft_max_button.text = "Craft Max (" + str(max_craftable) + ")"
+	craft_max_button.custom_minimum_size = Vector2(120, 50)
+	craft_max_button.pressed.connect(_on_craft_multiple_pressed.bind(recipe, max_craftable))
+	craft_max_button.disabled = max_craftable == 0
+	craft_buttons_container.add_child(craft_max_button)
+
+## Appelé quand on clique sur un bouton de craft multiple
+func _on_craft_multiple_pressed(recipe: CraftingRecipe, count: int):
 	if not player or not player.crafting_manager:
 		return
 
-	# Tente de crafter l'item
-	var crafted_item = player.crafting_manager.craft_item(
-		recipe,
-		player.resource_inventory,
-		player
-	)
+	var crafted_count = 0
+	for i in range(count):
+		# Tente de crafter l'item
+		var crafted_item = player.crafting_manager.craft_item(
+			recipe,
+			player.resource_inventory,
+			player
+		)
 
-	if crafted_item:
-		print("Item crafté avec succès: " + recipe.item_name)
+		if crafted_item:
+			crafted_count += 1
+		else:
+			# Si on ne peut plus crafter, arrête
+			break
+
+	if crafted_count > 0:
+		print("Items craftés: " + str(crafted_count) + "x " + recipe.item_name)
 		item_crafted.emit(recipe)
 		# Rafraîchit l'UI
 		_refresh_recipe_list()
 		_update_resource_display()
 		_display_recipe_info(recipe)  # Rafraîchit les infos de la recette
+
+## Vérifie si on peut crafter N fois une recette
+func _can_craft_multiple_times(recipe: CraftingRecipe, resources: Dictionary, times: int) -> bool:
+	for resource_name in recipe.required_resources:
+		var needed = recipe.required_resources[resource_name] * times
+		var has = resources.get(resource_name, 0)
+		if has < needed:
+			return false
+	return true
+
+## Calcule le nombre maximum de fois qu'on peut crafter une recette
+func _calculate_max_craftable(recipe: CraftingRecipe, resources: Dictionary) -> int:
+	var max_count = 999999  # Nombre très élevé
+
+	for resource_name in recipe.required_resources:
+		var needed_per_craft = recipe.required_resources[resource_name]
+		var has = resources.get(resource_name, 0)
+		var possible = int(has / needed_per_craft)
+		max_count = min(max_count, possible)
+
+	return max(0, max_count)
 
 ## Met à jour l'affichage des ressources
 func _update_resource_display():

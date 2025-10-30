@@ -9,8 +9,9 @@ static func create() -> CraftingRecipe:
 	recipe.item_name = "Mur en Bois"
 	recipe.description = "Mur défensif. Bloque les ennemis et les projectiles."
 	recipe.required_resources = {
-		"wood": 15
+		"wood": 5
 	}
 	recipe.item_type = "Structure"
 	recipe.category = "Building"
+	recipe.result_scene = load("res://Scenes/Buildings/Walls/Wood_Wall.tscn")
 	return recipe

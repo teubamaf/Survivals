@@ -19,8 +19,17 @@ func _ready():
 	for i in range(TOTAL_SLOTS):
 		slots[i] = null
 
-## Ajoute un item dans le premier slot vide
+## Ajoute un item dans le premier slot vide ou stack avec un item existant
 func add_item(item: Item) -> bool:
+	# Pour les structures et consommables, essaye de les stacker d'abord
+	if item.item_type in ["Structure", "Consumable"]:
+		for i in range(TOTAL_SLOTS):
+			if slots[i] != null and _can_stack(slots[i], item):
+				slots[i].quantity += item.quantity
+				inventory_changed.emit()
+				return true
+
+	# Sinon, trouve un slot vide
 	for i in range(TOTAL_SLOTS):
 		if slots[i] == null:
 			slots[i] = item
@@ -28,6 +37,16 @@ func add_item(item: Item) -> bool:
 			inventory_changed.emit()
 			return true
 	return false  # Inventaire plein
+
+## Vérifie si deux items peuvent être stackés ensemble
+func _can_stack(item1: Item, item2: Item) -> bool:
+	if item1.item_type != item2.item_type:
+		return false
+	if item1.item_name != item2.item_name:
+		return false
+	if item1.item_type == "Weapon":
+		return false  # Les armes ne stackent pas
+	return true
 
 ## Retire un item d'un slot spécifique
 func remove_item(slot_index: int) -> Item:
