@@ -1,0 +1,31 @@
+[gd_scene load_steps=7 format=3 uid="uid://doth4fwt8erl7"]
+
+[ext_resource type="Script" uid="uid://csslhq0yrbw3t" path="res://Scripts/Weapons/Weapon List/BowWeapon.gd" id="1_6donk"]
+[ext_resource type="Texture2D" uid="uid://bphp7fmu68ydc" path="res://Assets/Weapon/bow.png" id="2_3hx7n"]
+[ext_resource type="AudioStream" uid="uid://dss518i3uirpi" path="res://Assets/Sounds/Weapon/Pistol/shoot.wav" id="2_6donk"]
+[ext_resource type="PackedScene" uid="uid://c20dj0p3m016i" path="res://Scenes/Weapon/Weapon_Projectile_Bow.tscn" id="2_c20j2"]
+[ext_resource type="AudioStream" uid="uid://gjbw8401fvku" path="res://Assets/Sounds/Weapon/Pistol/reload.wav" id="3_3hx7n"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6donk"]
+radius = 8.0
+height = 22.0
+
+[node name="WeaponBow" type="Area2D"]
+script = ExtResource("1_6donk")
+projectile_scene = ExtResource("2_c20j2")
+metadata/_custom_type_script = "uid://cs4isda0almf4"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(4.7683716e-07, 4.7683716e-07)
+scale = Vector2(1.6249999, 1.6249999)
+texture = ExtResource("2_3hx7n")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_6donk")
+
+[node name="ShootSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_6donk")
+
+[node name="ReloadSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_3hx7n")
