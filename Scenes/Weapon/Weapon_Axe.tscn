@@ -9,6 +9,8 @@
 radius = 10.173755
 
 [node name="WeaponAxe" type="Area2D"]
+collision_layer = 4
+collision_mask = 6
 script = ExtResource("1_bkata")
 weapon_scene_path = "res://Scenes/Weapon/Weapon_Axe.tscn"
 

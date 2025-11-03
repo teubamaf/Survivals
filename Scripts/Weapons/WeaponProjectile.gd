@@ -11,14 +11,22 @@ var direction: Vector2 = Vector2.ZERO
 var start_position: Vector2
 var owner_node: Node2D
 var distance_traveled: float = 0.0
+var can_collide_with_obstacles: bool = false  # Empêche collision immédiate
+var is_initialized: bool = false  # Pour initialiser start_position au bon moment
 
 signal projectile_hit(target: Node2D, damage: int)
 
 func _ready():
-	start_position = global_position
-
 	body_entered.connect(_on_body_entered)
 	area_entered.connect(_on_area_entered)
+
+	# Activer les collisions avec obstacles après un court délai
+	var collision_delay_timer = Timer.new()
+	add_child(collision_delay_timer)
+	collision_delay_timer.wait_time = 0.05  # 50ms de délai
+	collision_delay_timer.one_shot = true
+	collision_delay_timer.timeout.connect(func(): can_collide_with_obstacles = true)
+	collision_delay_timer.start()
 
 	var lifetime_timer = Timer.new()
 	add_child(lifetime_timer)
@@ -28,6 +36,11 @@ func _ready():
 	lifetime_timer.start()
 
 func _physics_process(delta):
+	# Initialiser start_position au premier frame après que la position soit définie
+	if not is_initialized:
+		start_position = global_position
+		is_initialized = true
+
 	global_position += velocity * delta
 	distance_traveled = start_position.distance_to(global_position)
 
@@ -61,7 +74,10 @@ func _on_body_entered(body: Node2D):
 		body.take_damage(damage)
 		projectile_hit.emit(body, damage)
 		_destroy_projectile()
-	elif body.collision_layer & 1:
+	# Se détruit seulement sur les vrais obstacles (murs, structures)
+	# Pas sur les ressources destructibles (arbres, rochers sur layer 3)
+	# Et seulement après le délai initial pour éviter collision immédiate
+	elif can_collide_with_obstacles and body.collision_layer == 1:  # Obstacles fixes uniquement
 		_destroy_projectile()
 
 func _on_area_entered(area: Area2D):

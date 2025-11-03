@@ -51,6 +51,10 @@ func use(player: Player, slot_index: int = -1) -> bool:
 		player.equip_weapon(weapon_instance)
 		return true
 	elif item_type == "Structure" and structure_scene and player.building_placer:
+		# Déséquipe l'arme actuelle quand on sélectionne une structure
+		if player.current_weapon:
+			player.unequip_weapon()
+
 		# Active le mode placement et passe le slot_index pour décrémenter après placement
 		player.building_placer.start_placing_with_decrement(structure_scene, player, slot_index)
 		return true

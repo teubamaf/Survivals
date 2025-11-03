@@ -127,6 +127,16 @@ func _perform_attack():
 	if target.has_method("take_damage"):
 		target.take_damage(damage)
 
+		# Appliquer le knockback au joueur
+		if target is Player:
+			var knockback_direction = (target.global_position - global_position).normalized()
+			var knockback_strength = 600.0  # Force du knockback (augmentée pour éviter le blocage)
+			if target.has_method("apply_knockback"):
+				target.apply_knockback(knockback_direction * knockback_strength)
+
+		# Jouer le son d'impact pour toutes les attaques (joueur ET structures)
+		_play_hit_sound()
+
 func take_damage(amount: int):
 	current_health = max(0, current_health - amount)
 
@@ -152,6 +162,23 @@ func _distance_to(node: Node2D) -> float:
 	if not node:
 		return INF
 	return global_position.distance_to(node.global_position)
+
+func _play_hit_sound():
+	"""Joue le son d'impact quand le zombie frappe le joueur"""
+	# Vérifier si un fichier audio existe
+	var sound_path = "res://Assets/Sounds/Enemies/zombie_hit.wav"
+	if not ResourceLoader.exists(sound_path):
+		sound_path = "res://Assets/Sounds/Enemies/zombie_hit.ogg"
+
+	if ResourceLoader.exists(sound_path):
+		var audio_player = AudioStreamPlayer2D.new()
+		audio_player.stream = load(sound_path)
+		audio_player.volume_db = -5
+		audio_player.pitch_scale = randf_range(0.9, 1.1)  # Variation
+		get_tree().current_scene.add_child(audio_player)
+		audio_player.global_position = global_position
+		audio_player.play()
+		audio_player.finished.connect(audio_player.queue_free)
 
 # Méthodes virtuelles pour les sous-classes
 func _on_damage_taken(amount: int):

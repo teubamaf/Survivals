@@ -19,6 +19,10 @@ func _ready():
 	bullet_spread = 3.0
 	burst_count = 1
 
+	# IMPORTANT: Recalculer le timer d'attaque après avoir changé attack_speed
+	if attack_timer:
+		attack_timer.wait_time = 1.0 / attack_speed
+
 
 func _fire_projectile(target_position: Vector2):
 	super._fire_projectile(target_position)

@@ -19,3 +19,19 @@ func _ready():
 	reload_time = 0.8
 	bullet_spread = 1
 	burst_count = 1
+
+
+
+func _fire_projectile(target_position: Vector2):
+	super._fire_projectile(target_position)
+	if shoot_sound:
+		shoot_sound.pitch_scale = randf_range(0.95, 1.05)
+		shoot_sound.play()
+
+func reload() -> bool:
+	var success = super.reload()
+
+	if success and reload_sound:
+		reload_sound.play()
+
+	return success

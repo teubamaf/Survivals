@@ -8,6 +8,8 @@ radius = 13.037594
 height = 27.609022
 
 [node name="Rocks" type="StaticBody2D"]
+collision_layer = 3
+collision_mask = 1
 scale = Vector2(1.3039216, 1.3039216)
 script = ExtResource("1_io2or")
 

@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://ds75uqsmc5s8d"]
+
+[ext_resource type="Script" uid="uid://drym1vmwctidr" path="res://Scripts/Weapons/Weapon List/AssaultRifleWeapon.gd" id="1_ar"]
+[ext_resource type="Texture2D" uid="uid://b5c7c2g32so2w" path="res://Assets/Weapon/tile_0005.png" id="2_ar"]
+[ext_resource type="PackedScene" uid="uid://b28cjrfs5nph3" path="res://Scenes/Weapon/Weapon_Projectile.tscn" id="2_rocak"]
+[ext_resource type="AudioStream" uid="uid://dss518i3uirpi" path="res://Assets/Sounds/Weapon/Pistol/shoot.wav" id="3_av7uo"]
+[ext_resource type="AudioStream" uid="uid://gjbw8401fvku" path="res://Assets/Sounds/Weapon/Pistol/reload.wav" id="4_rocak"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ar"]
+radius = 8.0
+
+[node name="WeaponAssaultRifle" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_ar")
+projectile_scene = ExtResource("2_rocak")
+weapon_scene_path = "res://Scenes/Weapon/Weapon_AssaultRifle.tscn"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -8.000001)
+scale = Vector2(1.8958334, 1.8958334)
+texture = ExtResource("2_ar")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(12, -13.999999)
+scale = Vector2(-1.6474454, 1.2632496)
+shape = SubResource("CircleShape2D_ar")
+
+[node name="ShootSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_av7uo")
+
+[node name="ReloadSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_rocak")
+
+[node name="EmptySound" type="AudioStreamPlayer2D" parent="."]

@@ -80,6 +80,7 @@ func _physics_process(delta):
 		return
 
 	_handle_knockback(delta)
+	_handle_enemy_separation(delta)
 	_handle_input()
 	_handle_movement(delta)
 	_handle_weapon_rotation()
@@ -91,9 +92,37 @@ func _handle_knockback(delta):
 	if knockback_velocity.length() > 0:
 		knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, 800 * delta)
 
+func _handle_enemy_separation(delta):
+	"""Empêche le joueur de rester collé aux ennemis"""
+	var separation_force = Vector2.ZERO
+	var separation_radius = 60.0  # Distance de séparation
+	var separation_strength = 300.0  # Force de répulsion
+
+	# Trouver tous les ennemis proches
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	for enemy in enemies:
+		if enemy is CharacterBody2D:
+			var distance = global_position.distance_to(enemy.global_position)
+
+			# Si trop proche, appliquer une force de répulsion
+			if distance < separation_radius and distance > 0:
+				var push_direction = (global_position - enemy.global_position).normalized()
+				var push_strength = (1.0 - distance / separation_radius) * separation_strength
+				separation_force += push_direction * push_strength
+
+	# Appliquer la force de séparation
+	if separation_force.length() > 0:
+		velocity += separation_force * delta
+
 func _handle_input():
-	if Input.is_action_just_pressed("attack"):
-		_attack()
+	# Tir automatique pour les armes à distance (maintien du clic)
+	# Tir semi-automatique pour les armes de mêlée (clic unique)
+	if current_weapon and current_weapon is WeaponRanged:
+		if Input.is_action_pressed("attack"):
+			_attack()
+	else:
+		if Input.is_action_just_pressed("attack"):
+			_attack()
 
 	if Input.is_action_just_pressed("heavy_attack"):
 		_heavy_attack()
