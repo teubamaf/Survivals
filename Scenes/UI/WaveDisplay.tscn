@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://fjpitpoer5bc"]
+[gd_scene load_steps=2 format=3 uid="uid://bucev7b3jbisg"]
 
-[ext_resource type="Script" path="res://Scripts/UI/WaveDisplay.gd" id="1_wave"]
+[ext_resource type="Script" uid="uid://bq2804a6wbwu0" path="res://Scripts/UI/WaveDisplay.gd" id="1_wave"]
 
 [node name="WaveDisplay" type="Control"]
 layout_mode = 3
@@ -38,7 +38,7 @@ horizontal_alignment = 1
 [node name="StatusLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
-text = "☮ PÉRIODE CALME"
+text = "PÉRIODE CALME"
 horizontal_alignment = 1
 
 [node name="TimerLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer"]

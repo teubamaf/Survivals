@@ -34,10 +34,10 @@ func _ready():
 		slots_container.get_child(i).add_child(quantity_label)
 		quantity_labels.append(quantity_label)
 
-	# La barre se positionne automatiquement en bas au centre grâce aux anchors
+
 	update_selection()
 
-	# Trouver le joueur et se connecter à ses signaux
+
 	await get_tree().process_frame
 	player = get_tree().get_first_node_in_group("player")
 	if player:
@@ -72,7 +72,7 @@ func update_inventory_display():
 		weapon_icons[i].visible = false
 		quantity_labels[i].visible = false
 
-	# Afficher les items du nouveau système d'inventaire (7 premiers slots = hotbar)
+	# Afficher les items du nouveau système d'inventaire
 	if player.inventory_system:
 		for i in range(num_slots):
 			var item = player.inventory_system.get_item(i)

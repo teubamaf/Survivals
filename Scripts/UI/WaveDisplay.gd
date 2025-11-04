@@ -10,14 +10,12 @@ class_name WaveDisplay
 var wave_spawner: WaveSpawner = null
 
 func _ready():
-	# Se positionner en haut au centre
 	set_anchors_preset(Control.PRESET_TOP_WIDE)
 	offset_left = 0
 	offset_top = 20
 	offset_right = 0
 	offset_bottom = 120
 
-	# Trouver le WaveSpawner
 	await get_tree().process_frame
 	wave_spawner = get_tree().get_first_node_in_group("wave_spawner")
 
@@ -57,7 +55,7 @@ func _on_wave_ended(wave_number: int):
 	status_label.add_theme_color_override("font_color", Color(0.3, 1, 0.3))
 
 func _on_calm_period_started():
-	status_label.text = "☮ PÉRIODE CALME"
+	status_label.text = "PÉRIODE CALME"
 	status_label.add_theme_color_override("font_color", Color(0.5, 0.8, 1))
 
 func _format_time(seconds: float) -> String:
