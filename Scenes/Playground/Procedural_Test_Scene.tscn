@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://d01opnng02mnx"]
+[gd_scene load_steps=20 format=3 uid="uid://d01opnng02mnx"]
 
 [ext_resource type="Script" uid="uid://c35oeyqtf07i4" path="res://Scripts/MapGenerator.gd" id="1_mapgen"]
 [ext_resource type="PackedScene" uid="uid://cuegfhxyssadw" path="res://Scenes/Player.tscn" id="2_player"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://bp4m8nqcu3xe" path="res://Scripts/WaveManager.gd" id="14_wave"]
 [ext_resource type="PackedScene" uid="uid://doth4fwt8erl7" path="res://Scenes/Weapon/Weapon_Bow.tscn" id="15_db5ya"]
 [ext_resource type="PackedScene" uid="uid://ds75uqsmc5s8d" path="res://Scenes/Weapon/Weapon_AssaultRifle.tscn" id="16_2jg4a"]
+[ext_resource type="PackedScene" uid="uid://bp7yiaa4g3jho" path="res://Scenes/Weapon/Stone_Pickaxe.tscn" id="17_h1r82"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_grass"]
 texture = ExtResource("6_tilemap")
@@ -122,3 +123,9 @@ weapon_name = "Bow"
 position = Vector2(123, 179)
 weapon_scene = ExtResource("16_2jg4a")
 weapon_name = "Ak"
+
+[node name="WeaponPickup11" parent="." instance=ExtResource("7_g7c3n")]
+position = Vector2(286, 102)
+collision_layer = 1
+weapon_scene = ExtResource("17_h1r82")
+weapon_name = "Axe"

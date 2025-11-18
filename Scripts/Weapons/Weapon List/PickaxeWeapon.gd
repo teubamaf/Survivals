@@ -1,5 +1,5 @@
 extends WeaponMelee
-class_name AxeWeapon
+class_name PickaxeWeapon
 
 @onready var swing_sound: AudioStreamPlayer2D = $SwingSound
 @onready var hit_sound: AudioStreamPlayer2D = $HitSound
@@ -9,7 +9,7 @@ var is_swinging: bool = false
 
 func _ready():
 	super._ready()
-	weapon_name = "Battle Axe"
+	weapon_name = "Stone Pickaxe"
 	damage = 50
 	attack_speed = 1.5
 	range = 80.0

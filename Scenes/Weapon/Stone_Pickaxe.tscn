@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://bp7yiaa4g3jho"]
+
+[ext_resource type="Script" uid="uid://j31abxqcbvwm" path="res://Scripts/Weapons/Weapon List/PickaxeWeapon.gd" id="1_e77hv"]
+[ext_resource type="Texture2D" uid="uid://bfndg1jfxt4j6" path="res://Assets/Weapon/tile_0115.png" id="2_3a8si"]
+[ext_resource type="AudioStream" uid="uid://be3chqvs26hv1" path="res://Assets/Sounds/Weapon/Axe/swing.wav" id="3_sa8o6"]
+[ext_resource type="AudioStream" uid="uid://8krfy4uqet24" path="res://Assets/Sounds/Weapon/Axe/hit.ogg" id="4_e64jy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3a8si"]
+radius = 7.45408
+
+[node name="StonePickaxe" type="Area2D"]
+script = ExtResource("1_e77hv")
+metadata/_custom_type_script = "uid://j31abxqcbvwm"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(1.85, 1.85)
+texture = ExtResource("2_3a8si")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(6, -5.9999995)
+rotation = 3.1415927
+scale = Vector2(1.6474454, -1.2632496)
+shape = SubResource("CircleShape2D_3a8si")
+
+[node name="SwingSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_sa8o6")
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_e64jy")
